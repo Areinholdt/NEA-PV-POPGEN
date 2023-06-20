@@ -1,0 +1,80 @@
+---
+title: "test_het"
+author: "Annika"
+date: "2023-06-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+a<-scan("a_est.ml")
+a
+a[2]/sum(a)
+
+#new 
+b<-scan("k_sfs.em")
+b
+b[2]/sum(b)
+
+#old 
+c<-scan("k_est.ml")
+c
+c[2]/sum(c)
+
+
+#plot sfs k whole population !
+
+sfs<-(scan("k_est.ml")) #read in the log sfs
+barplot(sfs[-c(1,length(sfs))]) #plot variable sites 
+
+
+```
+```{r}
+# Create a vector to store heterozygosity values for all populations
+heterozygosity <- vector()
+
+# Loop through each population
+populations <- c("a", "d", "e", "g", "k")
+for (population in populations) {
+  # Read the data from the .ml file
+  data <- scan(paste0(population, "_est.ml"))
+  
+  # Calculate the heterozygosity
+  het <- data[2] / sum(data)
+  
+  # Append the heterozygosity value to the vector
+  heterozygosity <- c(heterozygosity, het)
+}
+
+# Create a data frame for plotting
+het_df <- data.frame(Population = populations,
+                     Heterozygosity = heterozygosity)
+
+# Box plot
+library(ggplot2)
+ggplot(het_df, aes(Population, Heterozygosity, fill = Population)) +
+  geom_col() +
+  ggtitle("Estimated heterozygosity for each population") +
+  xlab("Populations") +
+  ylab("Heterozygosity") +
+  theme(axis.text.x = element_text(angle = -50, hjust = 0.1, vjust = 0, size = 10))
+
+ggplot(het_df, aes(Population, Heterozygosity, color = Population)) +
+  geom_boxplot() +
+  ggtitle("Estimated heterozygosity for each population") +
+  xlab("Populations") +
+  ylab("Heterozygosity") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(color = " ")
+
+```
+```{r}
+
+```
+
+
