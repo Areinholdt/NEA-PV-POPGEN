@@ -12,14 +12,14 @@
 # Loading modules
 module load angsd
 
-# Specify the directory containing BAM files
+# bam dir
 bam_dir="/projects/mjolnir1/people/knb401/nea_pv/bam"
 
-# Specify the list of BAM files and corresponding population names
+# Specify the list of BAM files and popname
 bam_list=("a.bam" "d.bam" "e.bam" "g.bam" "k.bam")
 population_names=("a" "d" "e" "g" "k")
 
-# Generate SAF files and estimate 1D site frequency spectra for each population
+# Generate SAF files and estimate 1DSFS
 for ((i=0; i<${#bam_list[@]}; i++))
 do
     # Extract the BAM file and population name
