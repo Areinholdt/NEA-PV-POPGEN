@@ -30,7 +30,7 @@ do
     K=$k
     out="$output_dir/$K"
 
-    mkdir -p "$out" # Create the output directory if it doesn't exist
+    mkdir -p "$out" # Create output dir if it doesn't exist
 
     for f in $(seq $num)
     do
