@@ -13,11 +13,11 @@
 # Loading modules
 module load pcangsd
 
-# Set input/output directories
+# Set input/output dir
 inputdir=/projects/mjolnir1/people/knb401/nea_pv/analyses/modi
 outputdir=/projects/mjolnir1/people/knb401/nea_pv/analyses/modi
 
-# Set path to the beagle file
+# beagle file
 beagle=$inputdir/modifile.beagle.gz
 
 # Run pcaangsd
