@@ -1,0 +1,478 @@
+---
+title: "ngsadmix_plot"
+author: "Annika"
+date: "2023-05-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+## k = 3 conv
+
+q <- read.table("ngsadmix.3.1.qopt")
+pop <- read.table("popinfo.file")
+pop
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=10")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+
+r<-read.table("evalAdmix.3.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 3" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+
+```
+
+
+```{r}
+## k = 4 conv
+
+q <- read.table("ngsadmix.4.3.qopt_conv")
+pop <- read.table("popinfo.file")
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=10")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+
+r<-read.table("evalAdmix.7.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 4" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+```
+
+```{r}
+## k = 5 conv
+
+q <- read.table("ngsadmix.5.5.qopt_conv")
+pop <- read.table("popinfo.file")
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=5")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+#theme(axix.text=x.elemnet_text((angel = 45))
+
+r<-read.table("evalAdmix.5.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 5" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+ord
+
+```
+
+```{r}
+## k = 6 conv
+
+q <- read.table("ngsadmix.6.9.qopt_conv")
+pop <- read.table("popinfo.file")
+
+
+source("visFuns.R")
+
+library(RColorBrewer)
+NGSAcol <- brewer.pal(7, "Set3")
+
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord], col=NGSAcol, space=0, border=NA, main = "NGSAdmix", xlab="Individuals", ylab="Admixture proportions for K=6") 
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+
+r<-read.table("evalAdmix.6.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 6" , pop = as.vector(pop[,1]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+
+print(ord)
+print(pop[2])
+```
+
+```{r}
+## k = 7 conv
+
+q <- read.table("ngsadmix.7.99.qopt_conv")
+pop <- read.table("popinfo.file")
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=10")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+
+r<-read.table("evalAdmix.7.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 7" , pop = as.vector(pop[,1]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+```
+
+
+
+```{r}
+## k = 5 conv after modi
+
+q <- read.table("ngsadmix.5.18.qopt")
+pop <- read.table("popinfo_modi.file")
+
+pop <- pop %>%
+  mutate(V2 = case_when(
+    V2 == "VAE" ~ "Vaderoarna",
+    V2 == "LIE_02" ~ "Limfjord",
+    V2 == "MAA" ~ "Maaklappen",
+    V2 == "WAD" ~ "WaddenSea",
+    V2 == "KAL" ~ "Kalmarsund",
+    TRUE ~ V2  # Keep other names unchanged
+  ))
+
+pop
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+
+#factor_relevel
+
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:6, space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=5 modi")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+#theme(axix.text=x.elemnet_text((angel = 45))
+
+r<-read.table("evalAdmix.5.18.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 5 modi" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+ord
+```
+
+```{r}
+## k = 6 conv after modi
+
+q <- read.table("ngsadmix.6.29.qopt")
+pop <- read.table("popinfo_modi.file")
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=6 modi")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+#theme(axix.text=x.elemnet_text((angel = 45))
+
+r<-read.table("evalAdmix.6.29.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 6 modi" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+ord
+```
+```{r}
+## k =  conv after modi
+
+q <- read.table("ngsadmix.4.13.qopt")
+pop <- read.table("popinfo_modi.file")
+
+
+source("visFuns.R")
+
+# order according to population and plot the NGSadmix reults
+ord<-orderInds(pop = as.vector(pop[,1]), q = q)
+barplot(t(q)[,ord],col=2:10,space=0,border=NA,xlab="Individuals",ylab="Demo2 Admixture proportions for K=4 modi")
+text(tapply(1:nrow(pop),pop[ord,1],mean),-0.05,unique(pop[ord,1]),xpd=T)
+abline(v=cumsum(sapply(unique(pop[ord,1]),function(x){sum(pop[ord,1]==x)})),col=1,lwd=1.2)
+#theme(axix.text=x.elemnet_text((angel = 45))
+
+r<-read.table("evalAdmix.4.13.corres")
+
+# Plot correlation of residuals
+
+plotCorRes(cor_mat = r,title="Correlation of residuals for K = 4 modi" , pop = as.vector(pop[,2]), ord = ord, max_z=0.1, min_z=-0.1, rotatelabpop = 90, cex.lab.2=1, cex.lab=1)
+
+ord
+```
+
+```{r}
+q <- read.table("ngsadmix.5.18.qopt")
+pop <- read.table("popinfo_modi.file")
+
+source("visFuns.R")
+
+# Define your custom colors
+my_colors <- c("#EF8223", "#009E35", "#EF4185", "#1F9EE4", "#AF69EE")
+
+# Order according to population and plot the NGSadmix results
+ord <- orderInds(pop = as.vector(pop[, 1]), q = q)
+barplot(t(q)[, ord], col = my_colors, space = 0, border = NA, xlab = "Individuals", ylab = "Admixture proportions for K=5")
+text(tapply(1:nrow(pop), pop[ord, 1], mean), -0.05, unique(pop[ord, 1]), xpd = TRUE)
+abline(v = cumsum(sapply(unique(pop[ord, 1]), function(x) { sum(pop[ord, 1] == x) })), col = "black", lwd = 1.2)
+
+r <- read.table("evalAdmix.5.18.corres")
+
+# Plot correlation of residuals
+plotCorRes(cor_mat = r, title = "Correlation of residuals for K = 5 modi", pop = as.vector(pop[, 2]), ord = ord, max_z = 0.1, min_z = -0.1, rotatelabpop = 90, cex.lab.2 = 1, cex.lab = 1)
+
+ord
+
+```
+```{r}
+q <- read.table("ngsadmix.5.18.qopt")
+pop <- read.table("popinfo_modi.file")
+
+source("visFuns.R")
+
+
+pop <- pop
+# Define the location mapping and colors
+location_mapping <- c("VAE", "LIE_02", "MAA", "WAD", "KAL")
+location_colors <- c("VAE" = "#AF69EE", "LIE_02" = "#009E35", "MAA" = "#EF8223", "WAD" = "#1F9EE4", "KAL" = "#EF4185")
+
+# Order according to population 
+ord <- orderInds(pop = as.vector(pop$V1), q = q)
+sample_locations <- as.vector(pop$V2[ord])
+sample_colors <- location_colors[match(sample_locations, location_mapping)]
+
+barplot(t(q)[, ord], col = sample_colors, space = 0, border = NA, xlab = "Individuals", ylab = "Demo2 Admixture proportions for K=5 modi")
+text(tapply(1:nrow(pop), pop$V1[ord], mean), -0.05, unique(pop$V1[ord]), xpd = TRUE)
+abline(v = cumsum(sapply(unique(pop$V1[ord]), function(x) { sum(pop$V1[ord] == x) })), col = "black", lwd = 1.2)
+
+r <- read.table("evalAdmix.5.18.corres")
+
+# Plot correlation of residuals
+plotCorRes(cor_mat = r, title = "Correlation of residuals for K = 5", pop = as.vector(pop$V2), ord = ord, max_z = 0.1, min_z = -0.1, rotatelabpop = 90, cex.lab.2 = 1, cex.lab = 1)
+
+ord
+
+```
+```{r}
+q <- read.table("ngsadmix.5.18.qopt")
+pop <- read.table("popinfo_modi.file")
+
+source("visFuns.R")
+
+# Define your custom colors
+my_colors <- c("#EF8223", "#009E35", "#EF4185", "#1F9EE4", "#AF69EE")
+
+# Order according to population and plot the NGSadmix results
+ord <- orderInds(pop = as.vector(pop[, 1]), q = q)
+barplot(t(q)[, ord], col = my_colors, space = 0, border = NA, xlab = "Individuals", ylab = "Admixture proportions for K=5")
+text(tapply(1:nrow(pop), pop[ord, 1], mean), -0.05, c("", "", "", "", ""), xpd = TRUE)  # Update the labels to hide the unwanted ones
+abline(v = cumsum(sapply(unique(pop[ord, 1]), function(x) { sum(pop[ord, 1] == x) })), col = "black", lwd = 1.2)
+
+r <- read.table("evalAdmix.5.18.corres")
+
+# Plot correlation of residuals
+plotCorRes(cor_mat = r, title = "Correlation of residuals for K = 5 modi", pop = as.vector(pop[, 2]), ord = ord, max_z = 0.1, min_z = -0.1, rotatelabpop = 90, cex.lab.2 = 1, cex.lab = 1)
+
+ord
+
+```
+
+```{r}
+q <- read.table("ngsadmix.5.18.qopt")
+pop <- read.table("popinfo_modi.file")
+
+source("visFuns.R")
+
+# Define your custom colors
+my_colors <- c("#EF8223", "#009E35", "#EF4185", "#1F9EE4", "#AF69EE")
+location_colors <- c("Vaderoarna" = "#AF69EE",
+                     "Limfjord" = "#009E35",
+                     "Maaklappen" = "#EF8223",
+                     "WaddenSea" = "#1F9EE4",
+                     "Kalmarsund" = "#EF4185")
+
+# Order according to population and plot the NGSadmix results
+ord <- orderInds(pop = as.vector(pop[, 1]), q = q)
+barplot(t(q)[, ord], col = my_colors, space = 0, border = NA, xlab = "Individuals", ylab = "Admixture proportions for K=5")
+text(tapply(1:nrow(pop), pop[ord, 1], mean), -0.05, c("", "", "", "", ""), xpd = TRUE)  # Update the labels to hide the unwanted ones
+abline(v = cumsum(sapply(unique(pop[ord, 1]), function(x) { sum(pop[ord, 1] == x) })), col = "black", lwd = 1.2)
+
+# Add the legend
+par(xpd = TRUE)  
+legend("topright", legend = names(location_colors), fill = location_colors, title = "Population", cex = 0.5)
+
+
+```
+
+```{r}
+# Loading packages
+library(tidyverse)
+library(forcats)
+
+
+#this is andreas script just modified it to fit my data
+#make it into a funtion into a function in the future 
+
+#Loading data from NgsAdmix output 
+data_K2 <- read.table("admixtureplot/ngsadmix.2.46.qopt")
+data_K3 <- read.table("admixtureplot/ngsadmix.3.39.qopt")
+data_K4 <- read.table("admixtureplot/ngsadmix.4.13.qopt")
+data_K5 <- read.table("admixtureplot/ngsadmix.5.18.qopt")
+data_K6 <- read.table("admixtureplot/ngsadmix.6.29.qopt")
+
+# Importing location names for the chosen samples 
+location <- read.table("popinfo_modi.file", header = F)
+location
+
+location <- location %>% 
+  rename(location = V2) %>% 
+  rename(sample = V1)
+
+location <- location %>%
+  mutate(location = ifelse(location == "LIE_02", "LIE", location))
+  
+
+# Renaming columns, adding location data and pivoting to long format
+data_K2_long <- data_K2 %>% 
+  rename(pop_1 = V1) %>% 
+  rename(pop_2 = V2) %>% 
+  mutate(sample = location$sample,
+         location = location$location,
+         Apops = "K2") %>% 
+  pivot_longer(cols = starts_with("pop"),names_to = "popGroup",values_to = "prob")
+
+data_K3_long <- data_K3 %>% 
+  rename(pop_1 = V1) %>% 
+  rename(pop_2 = V2) %>% 
+  rename(pop_3 = V3) %>% 
+  mutate(sample = location$sample,
+         location = location$location,
+         Apops = "K3") %>% 
+  pivot_longer(cols = starts_with("pop"),names_to = "popGroup",values_to = "prob")
+
+data_K4_long <- data_K4 %>% 
+  rename(pop_1 = V1) %>% 
+  rename(pop_2 = V2) %>% 
+  rename(pop_3 = V3) %>% 
+  rename(pop_4 = V4) %>% 
+  mutate(sample = location$sample,
+         location = location$location,
+         Apops = "K4") %>% 
+  pivot_longer(cols = starts_with("pop"),names_to = "popGroup",values_to = "prob")
+
+data_K5_long <- data_K5 %>% 
+  rename(pop_1 = V1) %>% 
+  rename(pop_2 = V2) %>% 
+  rename(pop_3 = V3) %>% 
+  rename(pop_4 = V4) %>% 
+  rename(pop_5 = V5) %>% 
+  mutate(sample = location$sample,
+         location = location$location,
+         Apops = "K5") %>% 
+  pivot_longer(cols = starts_with("pop"),names_to = "popGroup",values_to = "prob")
+
+
+data_K6_long <- data_K6 %>% 
+  rename(pop_1 = V1) %>% 
+  rename(pop_2 = V2) %>% 
+  rename(pop_3 = V3) %>% 
+  rename(pop_4 = V4) %>% 
+  rename(pop_5 = V5) %>%
+  rename(pop_6 = V6) %>% 
+  mutate(sample = location$sample,
+         location = location$location,
+         Apops = "K6") %>% 
+  pivot_longer(cols = starts_with("pop"),names_to = "popGroup",values_to = "prob")
+
+
+# Merging the long datasets
+data_all <- data_K2_long %>% 
+  full_join(data_K3_long) %>% 
+  full_join(data_K4_long) %>% 
+  full_join(data_K5_long) %>%
+  full_join(data_K6_long)
+
+
+# Plotting admixture/structure plot
+
+# Color palette 
+# Color palette 
+cbPalette <- c("#EF4185", "#1F9EE4", "#EF8223", "#009E35", "#AF69EE", "#F0E442")
+
+# Manual coloring data column (tons of hard coding involved to make it look nicer)
+data_all <- data_all %>% 
+  mutate(col_nr = ifelse(Apops == "K2" & popGroup == "pop_1", "col1",
+                  ifelse(Apops == "K2" & popGroup == "pop_2", "col2",
+                  ifelse(Apops == "K3" & popGroup == "pop_1", "col1",
+                  ifelse(Apops == "K3" & popGroup == "pop_2", "col3",   
+                  ifelse(Apops == "K3" & popGroup == "pop_3", "col2",
+                  ifelse(Apops == "K4" & popGroup == "pop_1", "col1",      
+                  ifelse(Apops == "K4" & popGroup == "pop_2", "col4",
+                  ifelse(Apops == "K4" & popGroup == "pop_3", "col3",         
+                  ifelse(Apops == "K4" & popGroup == "pop_4", "col2",
+                  ifelse(Apops == "K5" & popGroup == "pop_1", "col4",
+                  ifelse(Apops == "K5" & popGroup == "pop_2", "col3",
+                  ifelse(Apops == "K5" & popGroup == "pop_3", "col1",
+                  ifelse(Apops == "K5" & popGroup == "pop_4", "col5",
+                  ifelse(Apops == "K6" & popGroup == "pop_1", "col5",                                                                                ifelse(Apops == "K6" & popGroup == "pop_2", "col4",
+                  ifelse(Apops == "K6" & popGroup == "pop_3", "col3",
+                  ifelse(Apops == "K6" & popGroup == "pop_4", "col2",
+                  ifelse(Apops == "K6" & popGroup == "pop_5", "col1",
+                  ifelse(Apops == "K6" & popGroup == "pop_6", "col6", "col2"))))))))))))))))))))
+                         
+                         
+    
+
+# Plotting
+data_all %>% 
+  mutate(location = fct_relevel(location, "VAE","LIE","MAA","WAD","KAL")) %>%
+  ggplot(aes(x = factor(sample), y = prob, fill = col_nr)) +
+  geom_col(show.legend = FALSE,width=0.99, color = "grey") +
+  facet_grid(Apops~location, switch = "x",scales = "free", space = "free") +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_fill_manual(values = cbPalette) +
+  ggtitle("Admixture proportions for all K")+
+  xlab("Location") + 
+  ylab("Ancestry") + 
+  theme_minimal()+
+  theme( 
+    panel.spacing.x = unit(0, "mm"),
+    panel.spacing.y = unit(0, "mm"),
+    panel.grid = element_blank(),
+    axis.text.x = element_blank(),
+    axis.text.y = element_blank(),
+    axis.title.x = element_text(color = "black", face = "bold", size = rel(1.5)),
+    axis.title.y = element_text(color = "black", face = "bold", size = rel(1.5)),
+    strip.text.y = element_text(color = "black", face = "bold", size = rel(1.5)),
+    strip.text.x = element_text(color = "black", face = "bold")
+  )
+
+
+```
+
