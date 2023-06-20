@@ -1,0 +1,44 @@
+---
+title: "fstplot"
+author: "Annika"
+date: "2023-06-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggrepel)
+
+# Read the fst.txt file with tab separator
+data <- read.table("fst.txt", sep = "\t", header = FALSE)
+
+# Create a new data frame with pop1, pop2, fst1, and fst2
+result <- data.frame(
+  pop1 = factor(sapply(strsplit(as.character(data$V1), " "), `[`, 1), levels = c("a", "d", "e", "g", "k"),
+                labels = c("Vaderoarna", "Maaklappen", "Limfjord", "WaddenSea", "Kalmarsund")),
+  pop2 = factor(sapply(strsplit(as.character(data$V1), " "), `[`, 2), levels = c("a", "d", "e", "g", "k"),
+                labels = c("Vaderoarna", "Maaklappen", "Limfjord", "WaddenSea", "Kalmarsund")),
+  fst1 = as.numeric(sapply(strsplit(as.character(data$V1), " "), `[`, 3)),
+  fst2 = as.numeric(data$V2)
+)
+
+ggplot(result, aes(pop1, pop2, fill = fst2)) +
+  scale_fill_gradient2(low = "navy", mid = "white", high = "coral1", midpoint = 0.1, limits = range(result$fst2)) +
+  geom_tile() +
+  geom_text(aes(label = round(fst2, 5)), color = "black", size = 3) +
+  ggtitle("Pairwise-FST") +
+  xlab('Population') +
+  ylab('Population') +
+  theme_classic() +
+  theme_update(plot.title = element_text(hjust = 0.5)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  theme(legend.title = element_blank())
+
+
+```
+
+
