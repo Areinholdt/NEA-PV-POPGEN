@@ -1,0 +1,164 @@
+---
+title: "pca_test"
+author: "Annika"
+date: "2023-05-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(scales)
+library(tidyverse)
+library(RColorBrewer)
+
+
+### obs ran this,  before remove related ind #####
+
+# Read the covariance matrix
+cov_mat <- read.table("pca.cov", sep = " ", header = FALSE)
+
+# Perform eigen decomposition
+ev <- eigen(cov_mat)
+
+# Extract eigenvalues and eigenvectors
+eigenvalues <- ev$values
+eigenvectors <- ev$vectors
+
+# Calculate the proportion of variance explained by each principal component
+variance_prop <- eigenvalues / sum(eigenvalues)
+
+# Convert eigenvectors to a data frame
+dat <- as.data.frame(eigenvectors)
+
+# Read population information
+master <- read.table("popinfo.file")
+
+dat$Location=as.character(master[, 2])
+
+varPc1=format(round(ev$values[1]/sum_var*100, 2), nsmall = 2)
+varPc2=format(round(ev$values[2]/sum_var*100, 2), nsmall = 2)
+varPc3=format(round(ev$values[3]/sum_var*100, 2), nsmall = 2)
+varPc4=format(round(ev$values[4]/sum_var*100, 2), nsmall = 2)
+
+colvec <- 1:nrow(dat)
+
+colvec[dat$Location == "VAE"] <- "#B4C52B"
+colvec[dat$Location == "LIE_02"] <- "#009E35"
+colvec[dat$Location == "MAA"] <- "#1CCBA7"
+colvec[dat$Location == "WAD"] <- "#1F9EE4"
+colvec[dat$Location == "KAL"] <- "#EF4185"
+
+
+colvec <- alpha(colvec, 0.8)
+
+plot(dat[,1], dat[,2], alpha = 2, col = colvec)
+
+ggplot(dat, aes(V1,V2, color = Location)) +
+  geom_point(size = 2.5) +
+  ggtitle("First two principal components from PCANGSD") +
+  xlab(paste0("PC1"," (",varPc1,"%)")) +
+  ylab(paste0("PC2"," (",varPc2,"%)")) +
+  theme_bw()
+  theme(legend.position = c(0.85, 0.6), plot.title = element_text(hjust = 0.5))
+
+pairs(dat[,1:4],labels=c(paste0("PC1\n", varPc1, "%"), paste0("PC2\n", varPc2, "%"), paste0("PC3\n", varPc3, "%"), paste0("PC4\n", varPc4, "%")), pch=19, upper.panel=NULL, col = colvec)
+
+
+
+legend("topright", bty='n', xpd=NA, c("Vaderoarna_2002", "LimfjordEast_2002", "Maaklappen_2002", "WaddenSeaDK_2002", "Kalmarsund"), pch=19, col=c("#B4C52B", "#009E35", "#1CCBA7", "#1F9EE4", "#EF4185"))
+
+```
+
+```{r}
+library(plotly)
+
+fig <- plot_ly(dat, x = ~V1, y = ~V2, z = ~V3, color = ~Location, colors = c("#B4C52B", "#009E35", "#1CCBA7", "#1F9EE4", "#EF4185"), alpha = .90)
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(xaxis = list(tifigtle = 'PC1'),
+                     yaxis = list(title = 'PC2'),
+                     zaxis = list(title = 'PC3')))
+
+fig
+```
+
+```{r}
+library(scales)
+library(tidyverse)
+library(RColorBrewer)
+
+
+#### OBS modified after removing related ind #######
+
+# Read the covariance matrix
+cov_mat <- read.table("pca_modi.cov", sep = " ", header = FALSE)
+
+# Perform eigen decomposition
+ev <- eigen(cov_mat)
+
+# Extract eigenvalues and eigenvectors
+eigenvalues <- ev$values
+eigenvectors <- ev$vectors
+
+# Calculate the proportion of variance explained by each principal component
+variance_prop <- eigenvalues / sum(eigenvalues)
+
+# Convert eigenvectors to a data frame
+dat <- as.data.frame(eigenvectors)
+
+# Read population information
+master <- read.table("modi_popinfo.file")
+
+dat$Location=as.character(master[, 2])
+
+
+varPc1=format(round(ev$values[1]/sum_var*100, 2), nsmall = 2)
+varPc2=format(round(ev$values[2]/sum_var*100, 2), nsmall = 2)
+varPc3=format(round(ev$values[3]/sum_var*100, 2), nsmall = 2)
+varPc4=format(round(ev$values[4]/sum_var*100, 2), nsmall = 2)
+
+colvec <- 1:nrow(dat)
+dat$Location[dat$Location == "VAE"] <- "Vaderoarna"
+dat$Location[dat$Location == "LIE_02"] <- "Limfjord"
+dat$Location[dat$Location == "MAA"] <- "Maaklappen"
+dat$Location[dat$Location == "WAD"] <- "WaddenSea"
+dat$Location[dat$Location == "KAL"] <- "Kalmarsund"
+
+colvec[dat$Location == "Vaderoarna"] <- "#AF69EE"
+colvec[dat$Location == "Limfjord"] <- "#009E35"
+colvec[dat$Location == "Maaklappen"] <- "#EF8223"
+colvec[dat$Location == "WaddenSea"] <- "#1F9EE4"
+colvec[dat$Location == "Kalmarsund"] <- "#EF4185"
+
+
+
+colvec <- alpha(colvec, 0.8)
+
+#plot(dat[,1], dat[,2], alpha = 2, col = colvec)
+
+
+
+#location_colors <- c("Vaderoarna" = "#AF69EE",
+#                     "Limfjord" = "#009E35",
+#                     "Maaklappen" = "#EF8223",
+#                     "WaddenSea" = "#1F9EE4",
+#                     "Kalmarsund" = "#EF4185")
+
+ggplot(dat, aes(V1,V2, color = Location)) +
+  geom_point(size = 2.5) +
+  #scale_color_brewer(palette = "Dark2")+
+  scale_color_manual(values = location_colors) +
+  #ggtitle("First two principal components from PCANGSD") +
+  xlab(paste0("PC1"," (",varPc1,"%)")) +
+  ylab(paste0("PC2"," (",varPc2,"%)")) +
+  theme_bw()  #+
+  theme(legend.position = c(0.85, 0.6), plot.title = element_text(hjust = 0.5))
+
+pairs(dat[,1:4],labels=c(paste0("PC1\n", varPc1, "%"), paste0("PC2\n", varPc2, "%"), paste0("PC3\n", varPc3, "%"), paste0("PC4\n", varPc4, "%")), pch=19, upper.panel=NULL, col = colvec)
+
+legend("topright", bty='n', xpd=NA, c("Vaderoarna", "Limfjord", "Maaklappen", "WaddenSea", "Kalmarsund"), pch=19, col=c("#AF69EE", "#009E35", "#EF8223", "#1F9EE4", "#EF4185"))
+
+```
+
