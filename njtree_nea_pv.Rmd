@@ -1,0 +1,213 @@
+---
+title: "NJ"
+author: "Annika"
+date: "2023-06-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+## heatmap / clustering / trees
+library(ape)
+library(dendextend)
+name <- "nj_out.ibsMat" # or covMat
+m <- as.matrix(read.table(name))
+
+master <- read.table("modi_popinfo.file")
+master
+rownames(m) <- as.character(master[, 1])
+colnames(m) <- as.character(master[, 1])
+loc <- substring(colnames(m), 5, 7)
+
+
+colors <- c("Gha" = "#F8766D", "Ken" = "#CD9600",
+"Nam" = "#7CAE00", "Tan" = "#00BE67",
+"Uga" = "#00BFC4","Zam" = "#C77CFF","Zim" = "#FF61CC")
+#heat map
+#heatmap(m)
+#neighbour joining
+out <- c("CWarGha00100","CWarGha00091", "CWarGha00098", "CWarGha00064")
+plot.phylo(root(nj(m), outgroup = out), tip.color = colors[loc], cex = 0.8)
+ape::add.scale.bar()
+
+dend <- as.dendrogram(hclust(dist(m), "ave"))
+loc2 <- substring(labels(dend), 5, 7)
+labels_colors(dend) <- colors[loc2]
+plot(rotate(dend))
+
+
+```
+
+
+```{r}
+## Load required libraries
+library(ape)
+library(dendextend)
+
+## Read the input data
+name <- "nj_out.ibsMat"  # Replace with the path to your input data file
+m <- as.matrix(read.table(name))
+
+## Read the population information
+master <- read.table("modi_popinfo.file", col.names = c("Sample", "Location"))  # Replace with the path to your population info file
+
+## Assign row and column names
+rownames(m) <- master$Sample
+colnames(m) <- master$Sample
+
+## Extract location information
+loc <- master$Location
+
+## Define colors for each location
+colors <- c(
+  "VAE" = "#AF69EE",
+  "LIE_02" = "#009E35",
+  "MAA" = "#EF8223",
+  "WAD" = "#1F9EE4",
+  "KAL" = "#EF4185"
+  )
+
+location_colors <- c("Vaderoarna" = "#AF69EE",
+                     "Limfjord" = "#009E35",
+                     "Maaklappen" = "#EF8223",
+                     "WaddenSea" = "#1F9EE4",
+                     "Kalmarsund" = "#EF4185")
+
+## Heatmap
+#heatmap(m)
+
+## Neighbour joining
+tree <- nj(dist(m))
+
+plot.phylo(tree, tip.color = colors[loc], cex = .5, order = "cladewise", type = "fan")
+ape::add.scale.bar()
+
+
+## Add Legend
+legend("bottomright", legend = unique(location_mapping[loc]), fill = unique(full_location_colors), title = "Locations")
+
+## Dendrogram
+#dend <- as.dendrogram(hclust(dist(m), "ave"))
+#labels_colors(dend) <- colors[loc]
+#plot(rotate(dend))
+
+```
+
+
+
+```{r}
+## Load required libraries
+library(ape)
+library(dendextend)
+
+## Read the input data
+name <- "nj_out.ibsMat"  # Replace with the path to your input data file
+m <- as.matrix(read.table(name))
+
+## Read the population information
+master <- read.table("modi_popinfo.file", col.names = c("Sample", "Location"))  # Replace with the path to your population info file
+
+## Assign row and column names
+rownames(m) <- master$Sample
+colnames(m) <- master$Sample
+
+## Extract location information
+loc <- master$Location
+
+## Define colors for each location
+colors <- c(
+  "VAE" = "#F8766D",
+  "LIE_02" = "#CD9600",
+  "MAA" = "#7CAE00",
+  "WAD" = "#00BE67",
+  "KAL" = "#00BFC4"
+)
+
+## Heatmap
+# heatmap(m)
+
+## Neighbour joining
+tree <- nj(dist(m))
+
+## Reorder the tree based on location information
+tree_reorder <- reorder(tree, loc)
+
+## Plot the reordered tree
+plot(tree_reorder, tip.color = colors[loc], cex = 0.8)
+ape::add.scale.bar()
+
+## Add Legend
+legend("topright", legend = unique(loc), fill = unique(colors), title = "Locations")
+
+## Dendrogram
+dend <- as.dendrogram(hclust(dist(m), "ave"))
+labels_colors(dend) <- colors[loc]
+plot(rotate(dend))
+
+```
+
+```{r}
+## Load required libraries
+library(ape)
+library(dendextend)
+
+## Read the input data
+name <- "nj_out.ibsMat"  # Replace with the path to your input data file
+m <- as.matrix(read.table(name))
+
+## Read the population information
+master <- read.table("modi_popinfo.file", col.names = c("Sample", "Location"))  # Replace with the path to your population info file
+
+## Assign row and column names
+rownames(m) <- master$Sample
+colnames(m) <- master$Sample
+
+## Extract location information
+loc <- master$Location
+
+## Define colors for each location
+colors <- c(
+  "VAE" = "#F8766D",
+  "LIE_02" = "#CD9600",
+  "MAA" = "#7CAE00",
+  "WAD" = "#00BE67",
+  "KAL" = "#00BFC4"
+)
+
+## Heatmap
+# heatmap(m)
+
+## Neighbour joining with outgroup
+outgroup <- "G01"  # Replace with the appropriate sample ID for the outgroup
+tree <- nj(dist(m))
+
+## Plot the tree
+plot(tree,  outgroup = outgroup, tip.color = colors[loc], cex = 0.8)
+ape::add.scale.bar()
+
+## Add Legend
+legend("topright", legend = unique(loc), fill = unique(colors), title = "Locations")
+
+## Dendrogram
+dend <- as.dendrogram(hclust(dist(m), "ave"))
+labels_colors(dend) <- colors[loc]
+plot(rotate(dend))
+
+```
+
+
+```
+
+```
+
+```{r}
+
+
+
+```
+
