@@ -1,0 +1,44 @@
+---
+title: "tets_het_all"
+author: "Annika"
+date: "2023-06-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+## This is for calculating and exstracting the hetro estimates for each .ml files ##
+##obs setwd() ##
+
+# List all .ml files in you homw dir
+ml_files <- list.files(pattern = "\\.ml$", full.names = TRUE)
+
+# Loop through each .ml file
+for (ml_file in ml_files) {
+  # Read the .ml file
+  a <- scan(ml_file)
+  
+  # Calculate heterozygosity
+  heterozygosity <- a[2] / sum(a)
+  
+  # Extract the filename (without extension)
+  filename <- tools::file_path_sans_ext(basename(ml_file))
+  
+  # Write heterozygosity to a new file
+  het_file <- paste0(filename, ".het")
+  writeLines(as.character(heterozygosity), het_file)
+}
+
+# Combine all .het files into one file
+het_files <- list.files(pattern = "\\.het$", full.names = TRUE)
+combined_file <- "AllHet.list"
+data <- lapply(het_files, readLines)
+combined_data <- do.call(rbind, data)
+write.table(combined_data, combined_file, sep = ",", quote = FALSE, row.names = FALSE)
+
+```
+
