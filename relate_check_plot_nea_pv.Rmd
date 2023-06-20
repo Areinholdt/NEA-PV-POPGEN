@@ -1,0 +1,53 @@
+---
+title: "relate_check_seal"
+author: "Annika"
+date: "2023-05-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+library(tidyverse)
+relate <- read.table("relate.out", header = TRUE, sep = "\t")
+
+
+relate
+
+
+selected_columns <- relate[, c(1, 2, 3, 4, 33)]
+selected_columns
+
+r <- selected_columns %>% arrange(KING)
+a <- r %>% filter(KING >= 0.175)
+
+a
+
+library(ggplot2)
+
+# Create a data frame with the population and sample counts
+data <- data.frame(
+  populations = c("VAE", "LIE", "MAA", "WAD", "KAL"),
+  sample_counts = c(14, 16, 15, 16, 22),
+  inbred_counts = c(0, 1, 0, 1, 8)
+)
+
+# Calculate percentage ??
+data$inbred_percent <- data$inbred_counts / data$sample_counts * 100
+
+# plot
+ggplot(data, aes(x = populations, y = sample_counts)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(x = "Population", y = "Number of Samples", title = " Number of first-degree relatives") +
+  theme_classic() +
+  geom_text(aes(label = sample_counts), vjust = -0.5, color = "black", size = 3) +
+  geom_bar(aes(x = populations, y = inbred_counts), stat = "identity", fill = "red") +
+  geom_text(aes(label = inbred_counts), vjust = -0.5, color = "white", size = 3) +
+  ylim(0, max(data$sample_counts) + 5)
+
+
+```
+
